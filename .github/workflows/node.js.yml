@@ -40,4 +40,4 @@ jobs:
           fi
 
       - name: Restart PM2 Application
-        run: sudo pm2 restart backend
+        run: pm2 restart backend
