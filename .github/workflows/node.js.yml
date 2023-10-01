@@ -1,0 +1,43 @@
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
+          cache-key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          cache-folder: ~/.yarn # Specify the Yarn cache folder
+
+      - name: Install Dependencies with Yarn
+        run: yarn install
+
+      - name: Set MongoDB Connection String
+        env:
+          NODE_ENV: production # Set the NODE_ENV as needed
+        run: |
+          echo "Setting MongoDB connection string..."
+          if [ "$NODE_ENV" = "production" ]; then
+            echo "export MONGODB_URI=mongodb+srv://univebd:11223344@unive.hvsn09e.mongodb.net/unive" >> $GITHUB_ENV
+          else
+            echo "export MONGODB_URI=mongodb+srv://devunive:l4Q3ZJ0Fxr62PlwM@cluster0.bfgrdyw.mongodb.net/unive" >> $GITHUB_ENV
+          fi
+
+      - name: Restart PM2 Application
+        run: sudo pm2 restart backend
