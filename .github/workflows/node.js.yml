@@ -22,8 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "yarn"
-          cache-key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-          cache-folder: ~/.yarn # Specify the Yarn cache folder
+          # cache-key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          # cache-folder: ~/.yarn
 
       - name: Install Dependencies with Yarn
         run: yarn install
