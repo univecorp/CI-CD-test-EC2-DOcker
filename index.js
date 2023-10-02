@@ -11,7 +11,7 @@ const bootstrap = async () => {
   try {
     await mongoose.set("strictQuery", false);
     await mongoose.connect(dbUrl).then(() => {
-      console.log("Database Connected Successfully!");
+      console.log("Database Connected Successfully!!!!!!!!!!!!");
       console.log(dbUrl);
     });
 
